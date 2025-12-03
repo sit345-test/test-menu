@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU/DIMM 壓力測試參數選單</title>
+    <style>
+        /* CSS 樣式開始 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6;
+        }
+
+        /* 移除置中，靠左對齊，並設定最大寬度 */
+        .accordion-container {
+            max-width: 800px;
+            margin: 0 0 20px 0; /* 靠左對齊 */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .os-section {
+            border-bottom: 2px solid #0056b3;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .os-title {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border-radius: 6px 6px 0 0;
+            margin-top: 0;
+            cursor: default; /* 不可點擊 */
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #eee;
+        }
+
+        /* 點擊標題的樣式 */
+        .accordion-header {
+            background-color: #f8f8f8;
+            color: #333;
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .accordion-header:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* 內容區塊的樣式 (預設隱藏) */
+        .accordion-content {
+            padding: 10px 20px;
+            background-color: #ffffff;
+            overflow: hidden;
+            max-height: 0; /* 關鍵: 預設收合 */
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+
+        /* 展開時的內容區塊樣式 */
+        .accordion-content.active {
+            max-height: 500px; /* 設一個足夠大的值來展開 */
+            padding: 10px 20px 20px 20px;
+        }
+        
+        /* 展開指示圖示 */
+        .icon {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .active .icon {
+            transform: rotate(90deg);
+        }
+
+        /* 參數細節的樣式 */
+        .param-detail p {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        
+        .param-label {
+            font-weight: bold;
+            color: #007bff;
+            display: inline-block;
+            min-width: 80px;
+        }
+        
+        /* 參數值改為 block 顯示，佔滿一行，更方便複製 */
+        .param-value {
+            display: block;
+            font-family: 'Courier New', monospace;
+            background-color: #f1f1f1;
+            padding: 8px 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            color: #333;
+            word-break: break-all;
+        }
+
+        /* CSS 樣式結束 */
+    </style>
+</head>
+<body>
+
+    <h1>🖥️ 系統壓力測試參數選單</h1>
+
+    <div class="accordion-container">
+
+        <div class="os-section">
+            <h2 class="os-title">Windows 測試項目</h2>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    1. 系統壓力測試 (所有轉接器與內建控制器)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TKWin - OLTIS</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">TESTTIME=02:00:00:00 --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    2. CPU 壓力測試 (Intel MaxPower)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">PTU Tool</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">使用 PTU Tool 跑 CPU Max Power</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    4. 記憶體壓力測試 (NTMemtest)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TKWin - NTMemTest</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">06:00:00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    5. 重啟週期測試 (含記憶體壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=25 --rscid=i[5m] --load=MEMORY --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    6. 重啟週期測試 (含系統壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=25 --rscid=i[5m] --load=SYSTEM --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    7. 重啟週期測試 (含 I/O 壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=25 --rscid=i[5m] --load=HDD --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    8. 透過 iRMC 進行重設週期測試
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=4h --rscid=v --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    9. Power On/Off 循環 (含記憶體壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=12h --rscid=30D[10m] --load=MEMORY --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    10. AC Fail 循環 (BIOS 設定 Previous State)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=12h --rscid=301B0D --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    11. 重啟循環測試 (Hyperthreading 禁用)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">Reboot 10x with all CPU Cores enabled and Hyperthreading disabled</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=10 --rscid=i --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    12. 重啟循環測試 (單核操作)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">Reboot 10x with CPU Single Core setting (Hyperthreading Enabled)</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=10 --rscid=i --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div> <div class="os-section">
+            <h2 class="os-title">Linux 測試項目</h2>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    1. 系統壓力測試 (所有轉接器與內建控制器)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TKWin - OLTIS</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">TESTTIME=02:00:00:00 --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    2. CPU 壓力測試 (Intel MaxPower)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">PTU Tool</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">使用 Linux PTU Tool 測試</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    4. 記憶體壓力測試 (NTMemtest)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TKWin - NTMemTest</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">06:00:00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    5. 重啟週期測試 (含記憶體壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=25 --rscid=i[5m] --load=MEMORY --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    6. 重啟週期測試 (含系統壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=25 --rscid=i[5m] --load=SYSTEM --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    7. 重啟週期測試 (含 I/O 壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=25 --rscid=i[5m] --load=HDD --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    8. 透過 iRMC 進行重設週期測試
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=4h --rscid=v --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    9. Power On/Off 循環 (含記憶體壓力)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=12h --rscid=30D[10m] --load=MEMORY --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    10. AC Fail 循環 (BIOS 設定 Previous State)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">TK - PyRestart - Master</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=12h --rscid=301B0D --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    11. 重啟循環測試 (Hyperthreading 禁用)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">Reboot 10x with all CPU Cores enabled and Hyperthreading disabled</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=10 --rscid=i --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    12. 重啟循環測試 (單核操作)
+                    <span class="icon">▶</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="param-detail">
+                        <p><span class="param-label">工具:</span> <span class="param-value" style="display:inline;">Reboot 10x with CPU Single Core setting (Hyperthreading Enabled)</span></p>
+                        <p><span class="param-label">參數:</span> 
+                           <span class="param-value">--testtime=10 --rscid=i --rsc=192.168.101.95 --sccdisable=901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div> </div> <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 選擇所有可點擊的標題
+            const headers = document.querySelectorAll('.accordion-header');
+
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    // 找出下一個元素 (也就是要展開/收合的內容區塊)
+                    const content = this.nextElementSibling;
+                    
+                    // 檢查內容區塊是否為展開狀態 (是否有 active class)
+                    const isExpanded = content.classList.contains('active');
+
+                    // 1. 先收合所有已展開的項目 (實現手風琴效果)
+                    document.querySelectorAll('.accordion-content.active').forEach(item => {
+                        // 確保不會收合當前點擊的項目 (如果它本來是展開的)
+                        if (item !== content) {
+                            item.classList.remove('active');
+                            item.previousElementSibling.classList.remove('active'); // 移除 header 上的 active
+                        }
+                    });
+
+                    // 2. 展開或收合當前點擊的項目
+                    if (!isExpanded) {
+                        // 如果本來是收合的，就展開它
+                        content.classList.add('active');
+                        this.classList.add('active'); // 在 header 上添加 active class 來旋轉圖示
+                    } else {
+                        // 如果本來是展開的，就收合它
+                        content.classList.remove('active');
+                        this.classList.remove('active'); // 移除 header 上的 active
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
+</html>
